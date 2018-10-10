@@ -15,9 +15,9 @@ const
   REGEX_GET_SQL_NO_FORMATTED = 'CommandText = {0,}\R?(?<componentContent>[\s\S]*?)(?=\R.*? {4}(?:DataSource|DbxCommandType|MaxBlobSize|Params))';
 
   REGEX_REMOVE_DELPHI_IDENT = '^ {6}';
-  REGEX_JOIN_DELPHIS_LINE_BREAK_1 = '(?<enterBefore>(?:#13#10|#13|#10){1,}) \+$\R';
-  REGEX_JOIN_DELPHIS_LINE_BREAK_2 = ' \+$\R(?<enterBefore>(?:#13#10|#13|#10){1,})';
-  REGEX_JOIN_DELPHIS_LINE_BREAK_3 = ''' \+$\R''';
+  REGEX_JOIN_DELPHIS_LINE_BREAK_1 = '( {0,}\+$\R^ {0,})';
+  REGEX_JOIN_DELPHIS_LINE_BREAK_2 = '''''';
+
 
   REGEX_REMOVE_SINGLE_QUOTE_1 = '('')?((?:#\d{1,3}))('')?';
   REGEX_REMOVE_SINGLE_QUOTE_2 = '''';
@@ -150,9 +150,8 @@ begin
 
       sqlFile.Text := TRegex.Replace(sqlFile.Text, REGEX_REMOVE_DELPHI_IDENT, '', [roMultiLine]);
 
-      sqlFile.Text := TRegex.Replace(sqlFile.Text, REGEX_JOIN_DELPHIS_LINE_BREAK_1, '$1', [roMultiLine]);
-      sqlFile.Text := TRegex.Replace(sqlFile.Text, REGEX_JOIN_DELPHIS_LINE_BREAK_2, '$1', [roMultiLine]);
-      sqlFile.Text := TRegex.Replace(sqlFile.Text, REGEX_JOIN_DELPHIS_LINE_BREAK_3, '', [roMultiLine]);
+      sqlFile.Text := TRegex.Replace(sqlFile.Text, REGEX_JOIN_DELPHIS_LINE_BREAK_1, '', [roMultiLine]);
+      sqlFile.Text := TRegex.Replace(sqlFile.Text, REGEX_JOIN_DELPHIS_LINE_BREAK_2, '', [roMultiLine]);
 
       sqlFile.Text := TRegex.Replace(sqlFile.Text, REGEX_REMOVE_SINGLE_QUOTE_1, '@$2@', []);
       sqlFile.Text := TRegex.Replace(sqlFile.Text, REGEX_REMOVE_SINGLE_QUOTE_2, '', []);
